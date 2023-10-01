@@ -1,11 +1,9 @@
-import React from 'react'
-import './HomePage.css'
-
+import React from "react";
+import "./HomePage.css";
+import Banner from "../../components/Banner/Banner";
 
 function HomePage() {
-  return (
-    <div>HomePage</div>
-  )
+  return <Banner />;
 }
 
-export default HomePage
+export default HomePage;
