@@ -3,6 +3,8 @@ import "./App.css";
 import HomePage from "./pages/HomePage/HomePage";
 import CategoryArticle from "./pages/CategoryArticle/CategoryArticle";
 import Header from "./components/Header/Header";
+import Auth from "./pages/Auth/Auth";
+
 
 function App() {
   return (
@@ -12,6 +14,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/category/:categoryName" element={<CategoryArticle />} />
         </Routes>
       </BrowserRouter>

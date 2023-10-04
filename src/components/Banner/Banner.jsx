@@ -48,9 +48,9 @@ function Banner() {
         </div>
       </div>
       <div className="other-articles-container">
-        {otherArticles.map((item) => (
+        {otherArticles.map((item, index) => (
           <div
-            className="other-article-item"
+            className="other-article-item" key={index}
             style={{ backgroundImage: `url(${item?.imageUrl})` }}
           >
             <div className="banner-info">
