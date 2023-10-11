@@ -5,7 +5,6 @@ import CategoryArticle from "./pages/CategoryArticle/CategoryArticle";
 import Header from "./components/Header/Header";
 import Auth from "./pages/Auth/Auth";
 
-
 function App() {
   return (
     <>
