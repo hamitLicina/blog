@@ -3,6 +3,7 @@ import "./ArticleDetails.css";
 import { useParams } from "react-router-dom";
 import { db } from "../../config/fireBaseConfig";
 import { getDoc, doc } from "firebase/firestore";
+import Likes from "../../components/Likes/Likes";
 
 const ArticleDetails = () => {
   const { articleId } = useParams();
@@ -30,6 +31,7 @@ const ArticleDetails = () => {
       <p>Category: {article?.category}</p>
       <p><span className="article-span">Author: </span>{article?.createdBy?.toUpperCase()}</p>
       <p><span className="article-span published">Published: </span>{article?.createdAt?.toDate().toDateString()}</p>
+      < Likes articleId={articleId} />
     </div>
     <div className="details-content">
       <img src={article?.imageUrl} alt={article?.title} className="details-img" />
