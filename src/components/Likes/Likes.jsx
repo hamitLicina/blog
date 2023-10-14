@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Likes.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { auth, db } from "../../config/fireBaseConfig";
@@ -18,6 +18,45 @@ function Likes({ articleId }) {
   const [user] = useAuthState(auth);
 
   const [isLiked, setIsLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
+
+  // We need to know if user has liked this article before, if they did so we can show the liked icon
+  useEffect(() => {
+    // Did this user like this article ?
+    // So we need collection reference
+    const likesRef = collection(db, "Likes");
+    // If user is logged in
+    if (user) {
+      // This query is almost same as the previous one which we did to make the query to find the id of the document to delete
+      const q = query(
+        likesRef,
+        where("articleId", "==", articleId),
+        where("userId", "==", user?.uid)
+      );
+      // Look for matching document (if they liked the document it will give us a document otherwise it will not gives anything)
+      getDocs(q, likesRef)
+        .then((res) => {
+          if (res.size > 0) {
+            setIsLiked(true);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    // I am trying to find out how many people liked this article.
+    // I need to make a query to count the likes
+    const likesRef = collection(db, "Likes");
+
+    const q2 = query(likesRef, where("articleId", "==", articleId));
+    // I have to look for matching documents
+    getDocs(q2, likesRef)
+      .then((res) => {
+        setLikesCount(res.size);
+      })
+      .catch((err) => console.log(err));
+  }, [isLiked]);
 
   // We need to add a for this user to this article if you click the empty heart, remove if click again
   // We will need another collection that stores the userId and articleId which is the Like collection
@@ -74,15 +113,14 @@ function Likes({ articleId }) {
 
   return (
     <div>
-      {isLiked ? (
-        <div className="like-icon">
+      <div className="like-icon">
+        {isLiked ? (
           <FaHeart onClick={handleUnlike} />
-        </div>
-      ) : (
-        <div className="like-icon">
+        ) : (
           <FaRegHeart onClick={handleLike} />
-        </div>
-      )}
+        )}
+        <span>{likesCount}</span>
+      </div>
     </div>
   );
 }
