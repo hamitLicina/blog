@@ -3,7 +3,15 @@ import "./Likes.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { auth, db } from "../../config/fireBaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  getDocs,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 
 function Likes({ articleId }) {
   // Get user data
@@ -31,11 +39,44 @@ function Likes({ articleId }) {
         .catch((err) => console.log(err));
     }
   };
+
+  const handleUnlike = (e) => {
+    // I must make sure the user is logged in
+    if (user) {
+      // Need to find document with this userId and articleId
+      // To get its document id
+      const likesRef = collection(db, "Likes");
+
+      // Now I have to make the query to set up and to find the id of the document to delete
+      const q = query(
+        likesRef,
+        where("articleId", "==", articleId),
+        where("userId", "==", user?.uid)
+      );
+      // Query is getting the data based on the condition
+      // Get match
+      getDocs(q, likesRef)
+        .then((res) => {
+          // console.log(res.size);
+          // console.log(res.docs[0]);
+          const likesId = res.docs[0].id;
+          // console.log(likesId);  I just made this to make sure which documentId I must select
+          deleteDoc(doc(db, "Likes", likesId))
+            .then((res) => {
+              // Change icon to unlike heart icon
+              setIsLiked(false);
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   return (
     <div>
       {isLiked ? (
         <div className="like-icon">
-          <FaHeart />
+          <FaHeart onClick={handleUnlike} />
         </div>
       ) : (
         <div className="like-icon">
