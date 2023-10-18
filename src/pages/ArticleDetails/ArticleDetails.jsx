@@ -28,7 +28,7 @@ const ArticleDetails = () => {
     <h1>{article?.title}</h1>
     <h3>{article?.summary}</h3>
     <div className="details-info-container">
-      <p>Category: {article?.category}</p>
+      <p className="article-category">Category: {article?.category}</p>
       <p><span className="article-span">Author: </span>{article?.createdBy?.toUpperCase()}</p>
       <p><span className="article-span published">Published: </span>{article?.createdAt?.toDate().toDateString()}</p>
       < Likes articleId={articleId} />
