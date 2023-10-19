@@ -8,6 +8,7 @@ import { auth } from "../../config/fireBaseConfig";
 import { signOut } from "firebase/auth";
 
 function Header() {
+  
   const [user] = useAuthState(auth);
   
   const categories = ["Health", "Food", "Travel", "Technology"];
@@ -16,7 +17,7 @@ function Header() {
 
   return (
     <div className="header-container">
-      <FaHome onClick={() => navigate("/")} />
+      <FaHome className="home-icon" onClick={() => navigate("/")} />
       {
         user && <Link to="/addarticle" className="auth-link">Add Article</Link>
       }

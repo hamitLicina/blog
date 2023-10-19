@@ -3,21 +3,14 @@ import "./Likes.css";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { auth, db } from "../../config/fireBaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  getDocs,
-  query,
-  where,
-  doc,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, getDocs, query, where, doc, } from "firebase/firestore";
 
 function Likes({ articleId }) {
   // Get user data
   const [user] = useAuthState(auth);
 
   const [isLiked, setIsLiked] = useState(false);
+  
   const [likesCount, setLikesCount] = useState(0);
 
   // We need to know if user has liked this article before, if they did so we can show the liked icon
