@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { db } from "../../config/fireBaseConfig";
 import { getDoc, doc } from "firebase/firestore";
 import Likes from "../../components/Likes/Likes";
+import Comments from "../../components/Comments/Comments";
 
 const ArticleDetails = () => {
   const { articleId } = useParams();
@@ -39,6 +40,7 @@ const ArticleDetails = () => {
       <p className="article-description">{article?.paragraphTwo}</p>
       <p className="article-description">{article?.paragraphThree}</p>
     </div>
+    <Comments articleId={articleId} />
   </div>;
 };
 
