@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Comments.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../config/fireBaseConfig";
-import { addDoc, collection, deleteDoc, onSnapshot, query, where, } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, onSnapshot, query, where, doc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 function Comments({ articleId }) {

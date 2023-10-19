@@ -34,7 +34,7 @@ function CategoryArticle() {
   return (
     <div className="category-article-container">
       {articles.map((item) => (
-        <ArticleCard article={item} className="category-article"/>
+        <ArticleCard article={item} key={item.id} className="category-article"/>
       ))}
     </div>
   );
