@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import "./Comments.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../config/fireBaseConfig";
-import { addDoc, collection, deleteDoc, onSnapshot, query, where, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  onSnapshot,
+  query,
+  where,
+  doc,
+} from "firebase/firestore";
 import { toast } from "react-toastify";
 
 function Comments({ articleId }) {
@@ -54,22 +62,29 @@ function Comments({ articleId }) {
 
     const commentsRef = collection(db, "Comments");
     // Adding a document with this articleId and user
-    addDoc(commentsRef, {
-      articleId: articleId,
-      userId: user?.uid,
-      content: newComment,
-      username: user?.displayName,
-    })
-      .then((res) => {
-        // Giving feedback to user for adding a comment
-        toast("Comment Added!", {
-          type: "success",
-          autoClose: 1500,
-        });
-        // Now I need to reset the input to be empty
-        setNewComment("");
+    if (newComment != "") {
+      addDoc(commentsRef, {
+        articleId: articleId,
+        userId: user?.uid,
+        content: newComment,
+        username: user?.displayName,
       })
-      .catch((err) => console.log(err));
+        .then((res) => {
+          // Giving feedback to user for adding a comment
+          toast("Comment Added!", {
+            type: "success",
+            autoClose: 1500,
+          });
+          // Now I need to reset the input to be empty
+          setNewComment("");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast("Please write a comment!", {
+        type: "fail",
+        autoClose: 1500,
+      });
+    }
   };
 
   const deleteComment = (id) => {
@@ -106,7 +121,12 @@ function Comments({ articleId }) {
       </div>
       {user ? (
         <form onSubmit={addNewComment}>
-          <input type="text" placeholder="Add Comment" onChange={(e) => setNewComment(e.target.value)} value={newComment} />
+          <input
+            type="text"
+            placeholder="Add Comment"
+            onChange={(e) => setNewComment(e.target.value)}
+            value={newComment}
+          />
           <button type="submit">Add Comment</button>
         </form>
       ) : (
